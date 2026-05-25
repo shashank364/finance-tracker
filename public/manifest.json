@@ -16,12 +16,18 @@
   "orientation": "portrait",
 
   "icons": [
+
     {
-      "src": "/finance-tracker/icon.png",
+
+      "src":
+        "/finance-tracker/icon.png",
 
       "sizes": "512x512",
 
       "type": "image/png"
+
     }
+
   ]
+
 }

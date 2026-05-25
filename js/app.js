@@ -304,7 +304,9 @@ populateCategories(selectedType);
 renderDashboard();
 
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("./service-worker.js");
+navigator.serviceWorker.register(
+  '/finance-tracker/service-worker.js'
+);
 }
 
 async function login() {
