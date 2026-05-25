@@ -392,17 +392,20 @@ function showApp() {
 
   renderProfile();
 
-  const firstName = (
-    currentUser.displayName ||
-    currentUser.email ||
-    "User"
-  ).split(" ")[0];
+  const rawName =
+    currentUser.displayName || currentUser.email?.split("@")[0] || "User";
+
+  const firstName = rawName
+    .split(/[._\-\s]+/)[0]
+    .replace(/^./, (char) => char.toUpperCase());
 
   document.getElementById("welcomeText").innerText =
     `Welcome back, ${firstName}`;
 
   document.getElementById("heroTitle").innerText =
     `${firstName}'s Finance Tracker`;
+
+  document.getElementById("bottomNav").classList.add("show-nav");
 }
 
 onAuthStateChanged(auth, (user) => {
@@ -459,7 +462,7 @@ authActionBtn.onclick = () => {
 
 document.getElementById("logoutBtn").onclick = async () => {
   await signOut(auth);
-
+  document.getElementById("bottomNav").classList.remove("show-nav");
   currentUser = null;
 
   transactions = [];
