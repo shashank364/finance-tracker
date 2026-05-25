@@ -1,126 +1,88 @@
-import {
-  expenseCategories,
-  incomeCategories
-} from './categories.js';
+import { expenseCategories, incomeCategories } from "./categories.js";
 
-import {
-  getTransactions,
-  saveTransactions
-} from './storage.js';
+import { getTransactions, saveTransactions } from "./storage.js";
 
-import {
-  saveTransaction,
-  calculateTotals
-} from './transactions.js';
+import { saveTransaction, calculateTotals } from "./transactions.js";
 
 import {
   getExpenseBreakdown,
-  getCashflowTrend
-} from './analytics.js';
+  getCashflowTrend,
+  generateInsight,
+} from "./analytics.js";
 
-import {
-  renderExpenseChart,
-  renderCashflowChart
-} from './charts.js';
+import { renderExpenseChart, renderCashflowChart } from "./charts.js";
 
-const modal =
-  document.getElementById('transactionModal');
+const modal = document.getElementById("transactionModal");
 
-const addBtn =
-  document.getElementById('addTransactionBtn');
+const addBtn = document.getElementById("addTransactionBtn");
 
-const saveBtn =
-  document.getElementById('saveTransactionBtn');
+const saveBtn = document.getElementById("saveTransactionBtn");
 
-const categorySelect =
-  document.getElementById('categorySelect');
+const categorySelect = document.getElementById("categorySelect");
 
-const transactionList =
-  document.getElementById('transactionList');
+const transactionList = document.getElementById("transactionList");
 
-const typeButtons =
-  document.querySelectorAll('.type');
+const typeButtons = document.querySelectorAll(".type");
 
-let selectedType = 'expense';
+let selectedType = "expense";
 
 let transactions = getTransactions();
 
 function populateCategories(type) {
+  categorySelect.innerHTML = "";
 
-  categorySelect.innerHTML = '';
-
-  const categories =
-    type === 'expense'
-      ? expenseCategories
-      : incomeCategories;
+  const categories = type === "expense" ? expenseCategories : incomeCategories;
 
   categories.forEach((category) => {
-
-    const option =
-      document.createElement('option');
+    const option = document.createElement("option");
 
     option.value = category.name;
 
-    option.innerText =
-      `${category.icon} ${category.name}`;
+    option.innerText = `${category.icon} ${category.name}`;
 
-    option.dataset.icon =
-      category.icon;
+    option.dataset.icon = category.icon;
 
     categorySelect.appendChild(option);
-
   });
-
 }
 
 function openModal() {
-    modal.classList.add('show');
+  modal.classList.add("show");
 }
 
 function closeModal() {
-modal.classList.remove('show');
+  modal.classList.remove("show");
 }
 
 addBtn.onclick = openModal;
 
 modal.onclick = (e) => {
-
   if (e.target === modal) {
     closeModal();
   }
-
 };
 
 typeButtons.forEach((button) => {
-
   button.onclick = () => {
-
     typeButtons.forEach((btn) => {
-      btn.classList.remove('active');
+      btn.classList.remove("active");
     });
 
-    button.classList.add('active');
+    button.classList.add("active");
 
-    selectedType =
-      button.dataset.type;
+    selectedType = button.dataset.type;
 
     populateCategories(selectedType);
-
   };
-
 });
 
 function renderTransactions() {
-
-  transactionList.innerHTML = '';
+  transactionList.innerHTML = "";
 
   transactions.forEach((transaction) => {
+    const item = document.createElement("div");
 
-    const item =
-      document.createElement('div');
-
-    item.className =
-      'transaction-item';
+    item.className = "transaction-item";
 
     item.innerHTML = `
       <div class="transaction-left">
@@ -136,10 +98,8 @@ function renderTransactions() {
           </div>
 
           <div class="transaction-meta">
-            ${transaction.note || 'Transaction'}
-            ${transaction.location
-              ? ' · ' + transaction.location
-              : ''}
+            ${transaction.note || "Transaction"}
+            ${transaction.location ? " · " + transaction.location : ""}
           </div>
 
         </div>
@@ -150,105 +110,66 @@ function renderTransactions() {
         transaction-amount
         ${transaction.type}
       ">
-        ${transaction.type === 'income'
-          ? '+'
-          : '-'
-        }₹${transaction.amount}
+        ${transaction.type === "income" ? "+" : "-"}₹${transaction.amount}
       </div>
     `;
 
     transactionList.appendChild(item);
-
   });
-
 }
 
 function renderDashboard() {
+  const totals = calculateTotals(transactions);
 
-  const totals =
-    calculateTotals(transactions);
+  document.getElementById("balanceAmount").innerText = `₹${totals.balance}`;
 
-  document.getElementById(
-    'balanceAmount'
-  ).innerText =
-    `₹${totals.balance}`;
+  document.getElementById("incomeAmount").innerText = `₹${totals.income}`;
 
-  document.getElementById(
-    'incomeAmount'
-  ).innerText =
-    `₹${totals.income}`;
-
-  document.getElementById(
-    'expenseAmount'
-  ).innerText =
-    `₹${totals.expense}`;
+  document.getElementById("expenseAmount").innerText = `₹${totals.expense}`;
 
   renderTransactions();
 
-  renderExpenseChart(
-    getExpenseBreakdown(transactions)
-  );
+  renderExpenseChart(getExpenseBreakdown(transactions));
 
-  renderCashflowChart(
-    getCashflowTrend(transactions)
-  );
-
+  renderCashflowChart(getCashflowTrend(transactions));
+  document.querySelector(".insight-value").innerText =
+    generateInsight(transactions);
 }
 
 saveBtn.onclick = () => {
+  const amount = document.getElementById("amountInput").value;
 
-  const amount =
-    document.getElementById('amountInput')
-      .value;
+  const note = document.getElementById("noteInput").value;
 
-  const note =
-    document.getElementById('noteInput')
-      .value;
+  const location = document.getElementById("locationInput").value;
 
-  const location =
-    document.getElementById('locationInput')
-      .value;
+  const selectedOption = categorySelect.options[categorySelect.selectedIndex];
 
-  const selectedOption =
-    categorySelect.options[
-      categorySelect.selectedIndex
-    ];
+  const transaction = saveTransaction({
+    type: selectedType,
 
-  const transaction =
-    saveTransaction({
+    category: selectedOption.value,
 
-      type: selectedType,
+    icon: selectedOption.dataset.icon,
 
-      category:
-        selectedOption.value,
+    amount,
 
-      icon:
-        selectedOption.dataset.icon,
+    note,
 
-      amount,
-
-      note,
-
-      location
-
-    });
+    location,
+  });
 
   transactions = transaction;
 
   renderDashboard();
 
   closeModal();
-
 };
 
 populateCategories(selectedType);
 
 renderDashboard();
 
-if ('serviceWorker' in navigator) {
-
-  navigator.serviceWorker.register(
-    './service-worker.js'
-  );
-
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./service-worker.js");
 }
