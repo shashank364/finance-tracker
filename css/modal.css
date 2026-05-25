@@ -1,0 +1,99 @@
+.modal-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  background: rgba(0,0,0,0.55);
+
+  display: none;
+
+  align-items: flex-end;
+
+  justify-content: center;
+
+  z-index: 100;
+
+  backdrop-filter: blur(10px);
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.modal {
+  width: 100%;
+  max-width: 620px;
+
+  background: #111111;
+
+  border-top-left-radius: 34px;
+  border-top-right-radius: 34px;
+
+  padding: 28px 20px 34px;
+
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.modal h2 {
+  font-size: 28px;
+
+  margin-bottom: 24px;
+}
+
+.type-toggle {
+  display: flex;
+
+  gap: 10px;
+
+  margin-bottom: 18px;
+}
+
+.type {
+  flex: 1;
+
+  padding: 16px;
+
+  border-radius: 18px;
+
+  background: #1A1A1A;
+
+  color: white;
+
+  font-weight: 700;
+}
+
+.type.active {
+  background:
+    linear-gradient(
+      135deg,
+      var(--green),
+      var(--green-dark)
+    );
+
+  color: black;
+}
+
+#saveTransactionBtn {
+  width: 100%;
+
+  padding: 18px;
+
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--green),
+      var(--green-dark)
+    );
+
+  color: black;
+
+  font-size: 18px;
+  font-weight: 800;
+
+  margin-top: 8px;
+
+  box-shadow:
+    0 12px 24px rgba(105,245,140,0.22);
+}

@@ -74,11 +74,11 @@ function populateCategories(type) {
 }
 
 function openModal() {
-  modal.classList.remove('hidden');
+    modal.classList.add('show');
 }
 
 function closeModal() {
-  modal.classList.add('hidden');
+modal.classList.remove('show');
 }
 
 addBtn.onclick = openModal;
