@@ -1,28 +1,15 @@
-const STORAGE_KEY = 'finance_tracker_v1';
-
 export function getTransactions() {
-  return JSON.parse(
-    localStorage.getItem(STORAGE_KEY)
-  ) || [];
+  return [];
 }
 
 export function saveTransactions(data) {
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(data)
-  );
+  return;
 }
 
 export function addTransaction(transaction) {
-  const transactions = getTransactions();
-
-  transactions.unshift(transaction);
-
-  saveTransactions(transactions);
-
-  return transactions;
+  return;
 }
 
 export function clearTransactions() {
-  localStorage.removeItem(STORAGE_KEY);
+  return;
 }

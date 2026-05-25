@@ -1,4 +1,4 @@
-import { addTransaction } from './storage.js';
+import { addTransaction } from "./storage.js";
 
 export function createTransaction(data) {
   return {
@@ -12,11 +12,13 @@ export function createTransaction(data) {
 
     amount: Number(data.amount),
 
-    note: data.note || '',
+    note: data.note || "",
 
-    location: data.location || '',
+    location: data.location || "",
 
-    createdAt: new Date().toISOString()
+    date: data.date,
+
+    createdAt: new Date().toISOString(),
   };
 }
 
@@ -31,18 +33,16 @@ export function calculateTotals(transactions) {
   let expense = 0;
 
   transactions.forEach((transaction) => {
-
-    if (transaction.type === 'income') {
+    if (transaction.type === "income") {
       income += transaction.amount;
     } else {
       expense += transaction.amount;
     }
-
   });
 
   return {
     income,
     expense,
-    balance: income - expense
+    balance: income - expense,
   };
 }

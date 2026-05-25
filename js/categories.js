@@ -1,88 +1,88 @@
 export const expenseCategories = [
   {
-    name: 'Food',
-    icon: '🍔'
+    name: "Food",
+    icon: "🍔",
   },
 
   {
-    name: 'Groceries',
-    icon: '🛒'
+    name: "Groceries",
+    icon: "🛒",
   },
 
   {
-    name: 'Travel',
-    icon: '🚕'
+    name: "Travel",
+    icon: "🚕",
   },
 
   {
-    name: 'Shopping',
-    icon: '🛍'
+    name: "Shopping",
+    icon: "🛍",
   },
 
   {
-    name: 'Lifestyle',
-    icon: '✨'
+    name: "Lifestyle",
+    icon: "✨",
   },
 
   {
-    name: 'Gym',
-    icon: '🏋'
+    name: "Gym",
+    icon: "🏋",
   },
 
   {
-    name: 'Bills',
-    icon: '💡'
+    name: "Bills",
+    icon: "💡",
   },
 
   {
-    name: 'EMI',
-    icon: '💳'
+    name: "EMI",
+    icon: "💳",
   },
 
   {
-    name: 'Healthcare',
-    icon: '🏥'
+    name: "Healthcare",
+    icon: "🏥",
   },
 
   {
-    name: 'Entertainment',
-    icon: '🎬'
+    name: "Entertainment",
+    icon: "🎬",
   },
 
   {
-    name: 'Insurance',
-    icon: '🛡'
-  }
+    name: "Insurance",
+    icon: "🛡",
+  },
 ];
 
 export const incomeCategories = [
   {
-    name: 'Salary',
-    icon: '💰'
+    name: "Salary",
+    icon: "💰",
   },
 
   {
-    name: 'Freelance',
-    icon: '💻'
+    name: "Freelance",
+    icon: "💻",
   },
 
   {
-    name: 'Business',
-    icon: '🏢'
+    name: "Business",
+    icon: "🏢",
   },
 
   {
-    name: 'Bonus',
-    icon: '🎉'
+    name: "Bonus",
+    icon: "🎉",
   },
 
   {
-    name: 'Refund',
-    icon: '↩'
+    name: "Refund",
+    icon: "↩",
   },
 
   {
-    name: 'Investment Return',
-    icon: '📈'
-  }
+    name: "Investment Return",
+    icon: "📈",
+  },
 ];
