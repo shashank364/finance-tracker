@@ -1,50 +1,114 @@
-/* .analytics-grid {
-  display: grid;
-  gap: 18px;
+.analytics-grid {
+    display: grid;
+    gap: 18px;
 
-  margin-top: 24px;
+    margin-top: 24px;
 }
 
 .chart-card {
-  padding: 22px;
+    padding: 22px;
 }
 
 .chart-card h3 {
-  font-size: 18px;
+    font-size: 18px;
 
-  margin-bottom: 18px;
+    margin-bottom: 18px;
 }
 
 .chart-card canvas {
-  width: 100% !important;
-  height: 260px !important;
+    width: 100% !important;
+    height: 260px !important;
 }
 
 .insight-card {
-  margin-top: 20px;
+    margin-top: 22px;
 
-  padding: 22px;
+    padding: 24px;
 
-  background:
-    linear-gradient(
-      135deg,
-      rgba(105,245,140,0.08),
-      rgba(255,255,255,0.03)
-    );
+    background:
+        linear-gradient(135deg,
+            rgba(105, 245, 140, 0.10),
+            rgba(255, 255, 255, 0.03));
+
+    border-radius: 30px;
+
+    overflow: hidden;
+
+    position: relative;
+}
+
+.insight-card::before {
+    content: '';
+
+    position: absolute;
+
+    width: 220px;
+    height: 220px;
+
+    background:
+        radial-gradient(circle,
+            rgba(105, 245, 140, 0.18),
+            transparent 70%);
+
+    top: -100px;
+    right: -80px;
+}
+
+.insight-top {
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    margin-bottom: 18px;
+
+    position: relative;
+    z-index: 2;
+}
+
+.insight-icon {
+    width: 58px;
+    height: 58px;
+
+    border-radius: 20px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        rgba(255, 255, 255, 0.08);
+
+    font-size: 28px;
+
+    backdrop-filter: blur(10px);
 }
 
 .insight-label {
-  color: var(--sub);
+    color: var(--sub);
 
-  font-size: 13px;
+    font-size: 13px;
 
-  margin-bottom: 10px;
+    margin-bottom: 4px;
+}
+
+.insight-title {
+    font-size: 22px;
+
+    font-weight: 800;
+
+    letter-spacing: -0.5px;
 }
 
 .insight-value {
-  font-size: 18px;
+    font-size: 16px;
 
-  line-height: 1.5;
+    line-height: 1.7;
 
-  font-weight: 600;
-} */
+    color: rgba(255, 255, 255, 0.88);
+
+    position: relative;
+    z-index: 2;
+}

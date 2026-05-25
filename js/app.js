@@ -132,8 +132,11 @@ function renderDashboard() {
   renderExpenseChart(getExpenseBreakdown(transactions));
 
   renderCashflowChart(getCashflowTrend(transactions));
-  document.querySelector(".insight-value").innerText =
-    generateInsight(transactions);
+  const insight = generateInsight(transactions);
+
+  document.getElementById("insightTitle").innerText = insight.title;
+
+  document.getElementById("insightValue").innerText = insight.message;
 }
 
 saveBtn.onclick = () => {

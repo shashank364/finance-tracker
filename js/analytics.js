@@ -83,7 +83,10 @@ export function getMonthlyStats(transactions) {
 
 export function generateInsight(transactions) {
   if (transactions.length === 0) {
-    return "Start tracking to unlock insights.";
+    return {
+      title: "No Insights Yet",
+      message: "Start tracking transactions to unlock analytics.",
+    };
   }
 
   let topCategory = "";
@@ -108,9 +111,9 @@ export function generateInsight(transactions) {
     }
   });
 
-  return `
-    Highest spending:
-    ${topCategory}
-    · ₹${highest}
-  `;
+  return {
+    title: `${topCategory} Spending Spike`,
+
+    message: `You've spent ₹${highest} on ${topCategory}. This is currently your highest expense category.`,
+  };
 }

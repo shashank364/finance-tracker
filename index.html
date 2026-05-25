@@ -1,168 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
+    <meta charset="UTF-8" />
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-  />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-  <title>Finance Tracker</title>
+    <title>Finance Tracker</title>
 
-  <meta name="theme-color" content="#070707" />
+    <meta name="theme-color" content="#070707" />
 
-  <link rel="manifest" href="manifest.json" />
+    <link rel="manifest" href="manifest.json" />
 
-  <link rel="stylesheet" href="css/app.css" />
-  <link rel="stylesheet" href="css/dashboard.css" />
-  <link rel="stylesheet" href="css/analytics.css" />
-  <link rel="stylesheet" href="css/modal.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/analytics.css" />
+    <link rel="stylesheet" href="css/modal.css" />
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
-  <div id="app">
+    <div id="app">
 
-    <header class="hero">
+        <header class="hero">
 
-      <div class="hero-top">
+            <div class="hero-top">
 
-        <div>
-          <p class="sub">
-            Personal Finance
-          </p>
+                <div>
+                    <p class="sub">
+                        Personal Finance
+                    </p>
 
-          <h1>
-            Finance Tracker
-          </h1>
-        </div>
+                    <h1>
+                        Finance Tracker
+                    </h1>
+                </div>
 
-        <button class="add-btn" id="addTransactionBtn">
-          +
-        </button>
+                <button class="add-btn" id="addTransactionBtn">
+                    +
+                </button>
 
-      </div>
+            </div>
 
-      <div class="balance-card">
+            <div class="balance-card">
 
-        <p>Total Balance</p>
+                <p>Total Balance</p>
 
-        <h2 id="balanceAmount">
-          ₹0
-        </h2>
+                <h2 id="balanceAmount">
+                    ₹0
+                </h2>
 
-        <div class="balance-stats">
+                <div class="balance-stats">
 
-          <div>
-            <span>Income</span>
-            <strong id="incomeAmount">₹0</strong>
-          </div>
+                    <div>
+                        <span>Income</span>
+                        <strong id="incomeAmount">₹0</strong>
+                    </div>
 
-          <div>
-            <span>Expense</span>
-            <strong id="expenseAmount">₹0</strong>
-          </div>
+                    <div>
+                        <span>Expense</span>
+                        <strong id="expenseAmount">₹0</strong>
+                    </div>
 
-        </div>
+                </div>
 
-      </div>
+            </div>
 
-    </header>
+        </header>
 
-    <section class="analytics-grid">
+        <section class="analytics-grid">
 
-      <div class="card chart-card">
-        <h3>Expense Breakdown</h3>
-        <canvas id="expenseDonut"></canvas>
-      </div>
+            <div class="card chart-card">
+                <h3>Expense Breakdown</h3>
+                <canvas id="expenseDonut"></canvas>
+            </div>
 
-      <div class="card chart-card">
-        <h3>Cash Flow Trend</h3>
-        <canvas id="cashflowChart"></canvas>
-      </div>
+            <div class="card chart-card">
+                <h3>Cash Flow Trend</h3>
+                <canvas id="cashflowChart"></canvas>
+            </div>
 
-    </section>
+        </section>
 
-    <section class="insight-card card">
+        <section class="insight-card card">
 
-  <div class="insight-label">
-    Smart Insight
-  </div>
+            <section class="insight-card card">
 
-  <div class="insight-value">
-    You're spending less on Food this week.
-  </div>
+                <div class="insight-top">
 
-</section>
+                    <div class="insight-icon">
+                        ⚡
+                    </div>
 
-    <section class="transactions-section">
+                    <div>
 
-      <div class="section-header">
-        <h3>Recent Transactions</h3>
-      </div>
+                        <div class="insight-label">
+                            Smart Insight
+                        </div>
 
-      <div id="transactionList"></div>
+                        <div class="insight-title" id="insightTitle">
+                            Spending Analysis
+                        </div>
 
-    </section>
+                    </div>
 
-  </div>
+                </div>
 
-  <div class="modal-overlay" id="transactionModal">
+                <div class="insight-value" id="insightValue">
+                    Start tracking to unlock insights.
+                </div>
 
-    <div class="modal">
+            </section>
 
-      <h2>Add Transaction</h2>
+        </section>
 
-      <div class="type-toggle">
+        <section class="transactions-section">
 
-        <button
-          class="type active"
-          data-type="expense"
-        >
-          Expense
-        </button>
+            <div class="section-header">
+                <h3>Recent Transactions</h3>
+            </div>
 
-        <button
-          class="type"
-          data-type="income"
-        >
-          Income
-        </button>
+            <div id="transactionList"></div>
 
-      </div>
-
-      <input
-        type="number"
-        id="amountInput"
-        placeholder="Amount"
-      />
-
-      <select id="categorySelect"></select>
-
-      <input
-        type="text"
-        id="noteInput"
-        placeholder="Note"
-      />
-
-      <input
-        type="text"
-        id="locationInput"
-        placeholder="Location"
-      />
-
-      <button id="saveTransactionBtn">
-        Save Transaction
-      </button>
+        </section>
 
     </div>
 
-  </div>
+    <div class="modal-overlay" id="transactionModal">
 
-  <script type="module" src="js/app.js"></script>
+        <div class="modal">
+
+            <h2>Add Transaction</h2>
+
+            <div class="type-toggle">
+
+                <button class="type active" data-type="expense">
+                    Expense
+                </button>
+
+                <button class="type" data-type="income">
+                    Income
+                </button>
+
+            </div>
+
+            <input type="number" id="amountInput" placeholder="Amount" />
+
+            <select id="categorySelect"></select>
+
+            <input type="text" id="noteInput" placeholder="Note" />
+
+            <input type="text" id="locationInput" placeholder="Location" />
+
+            <button id="saveTransactionBtn">
+                Save Transaction
+            </button>
+
+        </div>
+
+    </div>
+
+    <script type="module" src="js/app.js"></script>
 
 </body>
+
 </html>
