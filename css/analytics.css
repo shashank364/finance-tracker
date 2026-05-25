@@ -1,0 +1,54 @@
+.analytics-grid {
+  display: grid;
+  gap: 18px;
+
+  margin-top: 24px;
+}
+
+.chart-card {
+  padding: 22px;
+}
+
+.chart-card h3 {
+  font-size: 18px;
+
+  margin-bottom: 18px;
+}
+
+.chart-card canvas {
+  width: 100% !important;
+  height: 260px !important;
+}
+
+.insight-card {
+  margin-top: 20px;
+
+  padding: 22px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,255,255,0.08),
+      rgba(105,245,140,0.08)
+    );
+
+  border-radius: 28px;
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  backdrop-filter: blur(12px);
+}
+
+.insight-label {
+  color: var(--sub);
+
+  font-size: 13px;
+
+  margin-bottom: 8px;
+}
+
+.insight-value {
+  font-size: 18px;
+
+  line-height: 1.5;
+}

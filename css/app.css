@@ -76,10 +76,6 @@ body {
   box-shadow: var(--shadow);
 }
 
-.hidden {
-  display: none !important;
-}
-
 button {
   border: none;
   outline: none;
