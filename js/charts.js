@@ -2,9 +2,7 @@ let donutChart;
 let cashflowChart;
 
 export function renderExpenseChart(data) {
-
-  const ctx = document
-    .getElementById('expenseDonut');
+  const ctx = document.getElementById("expenseDonut");
 
   const labels = Object.keys(data);
 
@@ -15,8 +13,28 @@ export function renderExpenseChart(data) {
   }
 
   donutChart = new Chart(ctx, {
+    options: {
+      cutout: "72%",
 
-    type: 'doughnut',
+      animation: {
+        animateRotate: true,
+        duration: 1200,
+      },
+
+      plugins: {
+        legend: {
+          position: "top",
+
+          labels: {
+            color: "white",
+            padding: 18,
+            usePointStyle: true,
+            pointStyle: "circle",
+          },
+        },
+      },
+    },
+    type: "doughnut",
 
     data: {
       labels,
@@ -26,132 +44,118 @@ export function renderExpenseChart(data) {
           data: values,
 
           backgroundColor: [
-            '#69F58C',
-            '#5DA9FF',
-            '#FFB84D',
-            '#FF6B9D',
-            '#B388FF',
-            '#FF6B6B',
-            '#4DD0E1',
-            '#9575CD'
+            "#69F58C",
+            "#5DA9FF",
+            "#FFB84D",
+            "#FF6B9D",
+            "#B388FF",
+            "#FF6B6B",
+            "#4DD0E1",
+            "#9575CD",
           ],
 
-          borderWidth: 0
-        }
-      ]
+          borderWidth: 0,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          borderWidth: 3,
+        },
+      ],
     },
 
     options: {
-
       responsive: true,
 
       plugins: {
-
         legend: {
           labels: {
-            color: 'white'
-          }
-        }
-
-      }
-
-    }
-
+            color: "white",
+          },
+        },
+      },
+    },
   });
-
 }
 
 export function renderCashflowChart(data) {
-
-  const ctx = document
-    .getElementById('cashflowChart');
+  const ctx = document.getElementById("cashflowChart");
 
   if (cashflowChart) {
     cashflowChart.destroy();
   }
 
   cashflowChart = new Chart(ctx, {
-
-    type: 'line',
+    type: "line",
 
     data: {
-
-      labels: data.map(d => d.day),
+      labels: data.map((d) => d.day),
 
       datasets: [
-
         {
-          label: 'Income',
+          label: "Income",
 
-          data: data.map(d => d.income),
+          data: data.map((d) => d.income),
 
-          borderColor: '#69F58C',
+          borderColor: "#69F58C",
 
-          backgroundColor: 'rgba(105,245,140,0.2)',
+          backgroundColor: "rgba(105,245,140,0.2)",
 
           tension: 0.4,
 
-          fill: true
+          fill: true,
+
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          borderWidth: 3,
         },
 
         {
-          label: 'Expense',
+          label: "Expense",
 
-          data: data.map(d => d.expense),
+          data: data.map((d) => d.expense),
 
-          borderColor: '#FF6B6B',
+          borderColor: "#FF6B6B",
 
-          backgroundColor: 'rgba(255,107,107,0.2)',
+          backgroundColor: "rgba(255,107,107,0.2)",
 
           tension: 0.4,
 
-          fill: true
-        }
-
-      ]
-
+          fill: true,
+        },
+      ],
     },
 
     options: {
-
       responsive: true,
 
       plugins: {
-
         legend: {
           labels: {
-            color: 'white'
-          }
-        }
-
+            color: "white",
+          },
+        },
       },
 
       scales: {
-
         x: {
           ticks: {
-            color: '#8C8C8C'
+            color: "#8C8C8C",
           },
 
           grid: {
-            color: 'rgba(255,255,255,0.05)'
-          }
+            color: "rgba(255,255,255,0.05)",
+          },
         },
 
         y: {
           ticks: {
-            color: '#8C8C8C'
+            color: "#8C8C8C",
           },
 
           grid: {
-            color: 'rgba(255,255,255,0.05)'
-          }
-        }
-
-      }
-
-    }
-
+            color: "rgba(255,255,255,0.05)",
+          },
+        },
+      },
+    },
   });
-
 }
