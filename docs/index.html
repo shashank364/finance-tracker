@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <title>Finance Tracker</title>
+
+    <meta name="theme-color" content="#070707" />
+
+    <link rel="manifest" href="/finance-tracker/assets/manifest-D26WHEtK.json" />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" crossorigin src="/finance-tracker/assets/index-CN6wiuRC.js"></script>
+  <link rel="stylesheet" crossorigin href="/finance-tracker/assets/index-CyehJJ4_.css">
+</head>
+
+<body>
+
+    <div id="authScreen">
+
+        <div class="auth-card">
+
+            <div class="hero-heading">
+
+                <div class="welcome-text" id="welcomeText">
+                </div>
+
+                <h1 id="heroTitle">
+                    Finance Tracker
+                </h1>
+
+            </div>
+
+            <p>
+                Secure personal finance tracking.
+            </p>
+
+            <button id="googleLoginBtn">
+                Continue with Google
+            </button>
+
+            <div class="auth-divider">
+                OR
+            </div>
+
+            <input type="email" id="emailInput" placeholder="Email" />
+
+            <input type="password" id="passwordInput" placeholder="Password" />
+
+            <button id="authActionBtn">
+                Login
+            </button>
+
+            <p class="auth-switch" id="authSwitch">
+                Don't have an account?
+                Sign up
+            </p>
+
+        </div>
+
+    </div>
+
+    <div id="app" class="hidden">
+        <section class="screen active-screen" id="homeScreen">
+            <header class="hero">
+
+                <div class="hero-top">
+
+                    <div>
+                        <!-- <p class="sub">
+                            Personal Finance
+                        </p> -->
+
+                        <h2>
+                            Finance Tracker
+                        </h2>
+                    </div>
+
+                    <div class="hero-actions">
+                        <button class="add-btn" id="addTransactionBtn">
+                            +
+                        </button>
+
+                    </div>
+                </div>
+
+                <div class="balance-card">
+
+                    <p>Total Balance</p>
+
+                    <h2 id="balanceAmount">
+                        ₹0
+                    </h2>
+
+                    <div class="balance-stats">
+
+                        <div>
+                            <span>Income</span>
+                            <strong id="incomeAmount">₹0</strong>
+                        </div>
+
+                        <div>
+                            <span>Expense</span>
+                            <strong id="expenseAmount">₹0</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </header>
+            <section class="home-grid">
+
+                <div class="mini-card">
+
+                    <span>This Month</span>
+
+                    <strong id="monthlySpend">
+                        ₹0
+                    </strong>
+
+                    <p>
+                        Total expenses this month
+                    </p>
+
+                </div>
+
+                <div class="mini-card">
+
+                    <span>Transactions</span>
+
+                    <strong id="transactionCount">
+                        0
+                    </strong>
+
+                    <p>
+                        Total activity tracked
+                    </p>
+
+                </div>
+
+            </section>
+            <section class="mini-activity card">
+
+                <div class="section-header">
+
+                    <span>Quick Activity</span>
+
+                </div>
+
+                <div id="miniActivityList"></div>
+
+            </section>
+        </section>
+
+        <section class="screen" id="analyticsScreen">
+
+            <section class="analytics-grid">
+                <div class="card chart-card">
+                    <h3>Expense Breakdown</h3>
+                    <canvas id="expenseDonut"></canvas>
+                </div>
+
+                <div class="card chart-card">
+                    <h3>Cash Flow Trend</h3>
+                    <canvas id="cashflowChart"></canvas>
+                </div>
+
+            </section>
+
+            <section class="insight-card card">
+
+                <div class="insight-top">
+
+                    <div class="insight-icon">
+                        ⚡
+                    </div>
+
+                    <div>
+
+                        <div class="insight-label">
+                            Smart Insight
+                        </div>
+
+                        <div class="insight-title" id="insightTitle">
+                            Spending Analysis
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="insight-value" id="insightValue">
+                    Start tracking to unlock insights.
+                </div>
+
+            </section>
+        </section>
+
+        <section class="screen" id="transactionsScreen">
+
+            <section class="transactions-section">
+
+                <div class="section-header">
+                    <h3>Recent Transactions</h3>
+                </div>
+
+                <div id="transactionList"></div>
+
+            </section>
+        </section>
+        <section class="screen" id="profileScreen">
+
+            <div class="profile-header">
+
+                <div class="profile-avatar" id="profileAvatar">
+                    S
+                </div>
+
+                <h2 id="profileName">
+                    User
+                </h2>
+
+                <p id="profileEmail">
+                    user@email.com
+                </p>
+
+            </div>
+
+            <div class="profile-grid">
+
+                <div class="profile-stat card">
+
+                    <span>Total Transactions</span>
+
+                    <strong id="profileTransactions">
+                        0
+                    </strong>
+
+                </div>
+
+                <div class="profile-stat card">
+
+                    <span>Total Balance</span>
+
+                    <strong id="profileBalance">
+                        ₹0
+                    </strong>
+
+                </div>
+
+            </div>
+
+            <div class="profile-actions">
+
+                <!-- <button class="profile-btn">
+                    Export Data
+                </button>
+
+                <button class="profile-btn">
+                    App Settings
+                </button> -->
+
+                <button class="profile-btn logout" id="logoutBtn">
+                    Logout
+                </button>
+
+            </div>
+
+        </section>
+    </div>
+
+    <div class="modal-overlay" id="transactionModal">
+
+        <div class="modal">
+
+            <h2>Add Transaction</h2>
+
+            <div class="type-toggle">
+
+                <button class="type active" data-type="expense">
+                    Expense
+                </button>
+
+                <button class="type" data-type="income">
+                    Income
+                </button>
+
+            </div>
+
+            <input type="number" id="amountInput" placeholder="Amount" />
+
+            <select id="categorySelect"></select>
+
+            <input type="text" id="noteInput" placeholder="Note" />
+
+            <input type="text" id="locationInput" placeholder="Location" />
+
+            <button id="saveTransactionBtn">
+                Save Transaction
+            </button>
+
+        </div>
+
+    </div>
+
+    <nav class="bottom-nav">
+
+        <button class="nav-item active" data-tab="home">
+            <span>🏠</span>
+            <p>Home</p>
+        </button>
+
+        <button class="nav-item" data-tab="analytics">
+            <span>📊</span>
+            <p>Analytics</p>
+        </button>
+
+        <button class="nav-item" data-tab="transactions">
+            <span>💳</span>
+            <p>Transactions</p>
+        </button>
+
+        <button class="nav-item" data-tab="profile">
+            <span>👤</span>
+            <p>Profile</p>
+        </button>
+
+    </nav>
+</body>
+<div id="appLoader">
+
+    <div class="loader-logo">
+        ₹
+    </div>
+
+</div>
+
+</html>
