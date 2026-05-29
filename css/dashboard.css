@@ -414,3 +414,20 @@ h1 {
 .mini-activity-item:last-child {
   border-bottom: none;
 }
+
+.transaction-item {
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
+}
+
+.transaction-item:active {
+
+  transform: scale(0.98);
+
+  background:
+    rgba(255,255,255,0.03);
+}

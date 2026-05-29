@@ -5,7 +5,12 @@ import "../css/modal.css";
 
 import { expenseCategories, incomeCategories } from "./categories.js";
 
-import { getTransactions, saveTransactions } from "./storage.js";
+import {
+  getTransactions,
+  addTransaction,
+  removeTransaction,
+  editTransaction,
+} from "./storage.js";
 
 import { saveTransaction, calculateTotals } from "./transactions.js";
 
@@ -19,16 +24,18 @@ import { renderExpenseChart, renderCashflowChart } from "./charts.js";
 
 import { auth, db } from "../firebase-config.js";
 
+import { deleteDoc, updateDoc, doc } from "firebase/firestore";
+
+import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
+
 import {
   GoogleAuthProvider,
   signInWithPopup,
-  createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  onAuthStateChanged,
+  createUserWithEmailAndPassword,
   signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
-
-import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 
 const provider = new GoogleAuthProvider();
 
@@ -50,8 +57,9 @@ const typeButtons = document.querySelectorAll(".type");
 
 let selectedType = "expense";
 
-let transactions = getTransactions();
-
+let transactions = [];
+let editingTransactionId = null;
+let selectedTransaction = null;
 async function saveToCloud(transaction) {
   if (!currentUser) return;
 
@@ -125,6 +133,9 @@ function renderTransactions() {
 
     item.className = "transaction-item";
 
+    item.onclick = () => {
+      openTransactionActions(transaction.id);
+    };
     item.innerHTML = `
       <div class="transaction-left">
 
@@ -266,47 +277,153 @@ function renderProfile() {
   document.getElementById("profileBalance").innerText = `₹${totals.balance}`;
 }
 
-saveBtn.onclick = () => {
-  const amount = document.getElementById("amountInput").value;
+saveBtn.onclick = async () => {
 
-  const note = document.getElementById("noteInput").value;
+  const amount =
+    document.getElementById(
+      "amountInput"
+    ).value;
 
-  const location = document.getElementById("locationInput").value;
+  const note =
+    document.getElementById(
+      "noteInput"
+    ).value;
 
-  const selectedOption = categorySelect.options[categorySelect.selectedIndex];
+  const location =
+    document.getElementById(
+      "locationInput"
+    ).value;
+
+  const selectedOption =
+    categorySelect.options[
+      categorySelect.selectedIndex
+    ];
+
+  // UPDATE
+
+  if (editingTransactionId) {
+
+    const updatedData = {
+
+      type: selectedType,
+
+      category:
+        selectedOption.value,
+
+      icon:
+        selectedOption.dataset.icon,
+
+      amount:
+        Number(amount),
+
+      note,
+
+      location,
+
+    };
+
+    await editTransaction(
+      editingTransactionId,
+      updatedData
+    );
+
+    const index =
+      transactions.findIndex(
+        tx =>
+          tx.id ===
+          editingTransactionId
+      );
+
+    transactions[index] = {
+
+      ...transactions[index],
+
+      ...updatedData,
+
+    };
+
+    editingTransactionId =
+      null;
+
+    document.getElementById(
+      "transactionModalTitle"
+    ).innerText =
+      "Add Transaction";
+
+    saveBtn.innerText =
+      "Save Transaction";
+
+    renderDashboard();
+
+    renderExpenseChart(
+      transactions
+    );
+
+    renderCashflowChart(
+      transactions
+    );
+
+    closeModal();
+
+    return;
+  }
+
+  // CREATE
 
   const transaction = {
+
     type: selectedType,
 
-    category: selectedOption.value,
+    category:
+      selectedOption.value,
 
-    icon: selectedOption.dataset.icon,
+    icon:
+      selectedOption.dataset.icon,
 
-    amount: Number(amount),
+    amount:
+      Number(amount),
 
     note,
 
     location,
 
-    date: new Date().toISOString(),
+    date:
+      new Date().toISOString(),
+
   };
 
-  transactions.push(transaction);
+  const savedTransaction =
+    await addTransaction(
+      transaction
+    );
 
-  saveToCloud(transaction);
+  if (!savedTransaction)
+    return;
+
+  transactions.push(
+    savedTransaction
+  );
 
   renderDashboard();
 
+  renderExpenseChart(
+    transactions
+  );
+
+  renderCashflowChart(
+    transactions
+  );
+
   closeModal();
+
 };
+
 populateCategories(selectedType);
 
 renderDashboard();
 
 if ("serviceWorker" in navigator) {
-navigator.serviceWorker.register(
-  '/finance-tracker/service-worker.js'
-);
+  navigator.serviceWorker.register("/finance-tracker/service-worker.js");
 }
 
 async function login() {
@@ -404,8 +521,8 @@ function showApp() {
   document.getElementById("welcomeText").innerText =
     `Welcome back, ${firstName}`;
 
-  document.getElementById("heroTitle").innerText =
-    `${firstName}'s Finance Tracker`;
+  // document.getElementById("heroTitle").innerText =
+  //   `${firstName}'s Finance Tracker`;
 
   document.getElementById("bottomNav").classList.add("show-nav");
 }
@@ -508,3 +625,70 @@ navItems.forEach((item) => {
     }
   };
 });
+
+let actionModal;
+
+window.addEventListener("DOMContentLoaded", () => {
+  actionModal = document.getElementById("actionModal");
+
+  document.getElementById("cancelActionBtn").onclick = closeActionModal;
+
+  document.getElementById("editTransactionBtn").onclick = () => {
+    if (!selectedTransaction) return;
+
+    editingTransactionId = selectedTransaction.id;
+
+    selectedType = selectedTransaction.type;
+
+    amountInput.value = selectedTransaction.amount;
+
+    noteInput.value = selectedTransaction.note || "";
+
+    locationInput.value = selectedTransaction.location || "";
+
+    categorySelect.value = selectedTransaction.category;
+
+    closeActionModal();
+    document.getElementById("transactionModalTitle").innerText =
+      "Update Transaction";
+
+    saveBtn.innerText = "Update Transaction";
+    openModal();
+  };
+
+  document.getElementById("deleteTransactionBtn").onclick = async () => {
+    if (!selectedTransaction) return;
+
+    const confirmed = confirm("Delete transaction?");
+
+    if (!confirmed) return;
+
+    await deleteDoc(doc(db, "transactions", selectedTransaction.id));
+
+    transactions = transactions.filter(
+      (tx) => tx.id !== selectedTransaction.id,
+    );
+
+    renderDashboard();
+
+    renderExpenseChart(transactions);
+
+    renderCashflowChart(transactions);
+
+    closeActionModal();
+  };
+});
+
+window.openTransactionActions = function (id) {
+  selectedTransaction = transactions.find((tx) => tx.id === id);
+
+  if (!selectedTransaction || !actionModal) return;
+
+  actionModal.classList.add("show");
+};
+
+function closeActionModal() {
+  if (!actionModal) return;
+
+  actionModal.classList.remove("show");
+}

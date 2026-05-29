@@ -1,8 +1,8 @@
 import { addTransaction } from "./storage.js";
 
 export function createTransaction(data) {
+
   return {
-    id: crypto.randomUUID(),
 
     type: data.type,
 
@@ -19,30 +19,47 @@ export function createTransaction(data) {
     date: data.date,
 
     createdAt: new Date().toISOString(),
+
   };
 }
 
-export function saveTransaction(data) {
-  const transaction = createTransaction(data);
+export async function saveTransaction(data) {
 
-  return addTransaction(transaction);
+  const transaction =
+    createTransaction(data);
+
+  return await addTransaction(
+    transaction
+  );
 }
 
 export function calculateTotals(transactions) {
+
   let income = 0;
+
   let expense = 0;
 
   transactions.forEach((transaction) => {
+
+    if (!transaction) return;
+
     if (transaction.type === "income") {
+
       income += transaction.amount;
+
     } else {
+
       expense += transaction.amount;
     }
   });
 
   return {
+
     income,
+
     expense,
+
     balance: income - expense,
+
   };
 }

@@ -1,33 +1,17 @@
 {
   "name": "Finance Tracker",
-
   "short_name": "Finance",
-
   "start_url": "/finance-tracker/",
-
   "scope": "/finance-tracker/",
-
   "display": "standalone",
-
   "background_color": "#070707",
-
   "theme_color": "#070707",
-
   "orientation": "portrait",
-
   "icons": [
-
     {
-
-      "src":
-        "/finance-tracker/icon.png",
-
+      "src": "/finance-tracker/icon.png",
       "sizes": "512x512",
-
       "type": "image/png"
-
     }
-
   ]
-
 }
